@@ -3,6 +3,77 @@
 
 {% block body %}
 
-<h2>yui</h2>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box-element">
+
+            <a  class="btn btn-outline-dark" href="{% url 'shoestore' %}">&#x2190; Continue Shopping</a>
+
+            <div class="cart-heading">
+
+                <h5>Items: <strong>3</strong></h5>
+                <h5>Total:<strong> ₹7999</strong></h5>
+                <p><a class="btn btn-success" href="{% url 'checkout' %}">Checkout</a></p>
+
+            </div>
+
+
+        </div>
+
+        <br>
+        <div class="box-element">
+            <div class="cart-summary">
+                <div></div>
+                <div><strong>Item</strong></div>
+                <div><strong>Price</strong></div>
+                <div><strong>Quantity</strong></div>
+                <div><strong>Total</strong></div>
+
+
+                <div><img class="row-image" src="{% static 'images/thumbnail_shoe.jpg' %}"></div>
+                    <div><p>Product 1</p></div>
+                    <div><p>₹999</p></div>
+                    <div>
+                        <div class="quantity">
+                            <img class="chg-quantity" src="{% static  'images/add.png' %}">
+                            <p>2</p>
+                            <img class="chg-quantity" src="{% static  'images/minus.png' %}">
+                        </div>
+                    </div>
+                <div><p>₹1999</p></div>
+
+
+                <div><img class="row-image" src="{% static 'images/thumbnail_shoe.jpg' %}"></div>
+                    <div><p>Product 2</p></div>
+                    <div><p>₹999</p></div>
+                    <div>
+                        <div class="quantity">
+                            <img class="chg-quantity" src="{% static  'images/add.png' %}">
+                            <p>5</p>
+                            <img class="chg-quantity" src="{% static  'images/minus.png' %}">
+                        </div>
+                    </div>
+                <div><p>₹4999</p></div>
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {% endblock body %}

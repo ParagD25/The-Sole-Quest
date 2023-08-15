@@ -3,6 +3,84 @@
 
 {% block body %}
 
-<h2>rty</h2>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="box-element" id="form-wrapper">
+            <form id="form">
+                <div id="user-info">
+                    <div class="form-field">
+                        <input required class="form-control" type="text" name="name" placeholder="Enter Name">
+                    </div>
+                    <div class="form-field">
+                        <input required class="form-control" type="email" name="email" placeholder="Enter Email">
+                    </div>
+                </div>
+                
+                <hr>
+                <div id="shipping-info">
+        
+                    <p>Shipping Information:</p>
+
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="address" placeholder="Enter Address">
+                    </div>
+
+                    <div class="form-field">
+                        <input class="form-control" type="text" disabled name="country" value="India">
+                    </div>
+                    
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="state" placeholder="Enter State">
+                    </div>
+
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="city" placeholder="Enter City">
+                    </div>
+
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="zipcode" placeholder="Zip Code">
+                    </div>
+
+                </div>
+
+                <hr>
+                <div class="d-grid gap-2">
+                    <input id="form-button" class="btn btn-success btn-primary" type="submit" value="Continue">
+                </div>
+                
+            </form>
+        </div>
+
+        <br>
+
+        <div class="box-element hidden" id="payment-info">
+            <small>Payment Options</small>
+        </div>
+        
+    </div>
+
+    <div class="col-lg-6">
+        <div class="box-element">
+            <a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+            <hr>
+            <h3>Order Summary</h3>
+            <hr>
+            <div class="checkout-summary">
+                <div><img class="row-image" src="{% static 'images/thumbnail_shoe.jpg' %}"></div>
+                <div><p>Product 1</p></div>
+                <div><p>₹2999</p></div>
+                <div><p>x2</p></div>
+
+                <div><img class="row-image" src="{% static 'images/thumbnail_shoe.jpg' %}"></div>
+                <div><p>Product 2</p></div>
+                <div><p>₹5999</p></div>
+                <div><p>x3</p></div>
+
+            </div>
+            <h5>Items:   5</h5>
+            <h5>Total:   ₹9999</h5>
+        </div>
+    </div>
+</div>
 
 {% endblock body %}
