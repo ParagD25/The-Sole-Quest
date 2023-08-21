@@ -13,8 +13,8 @@
 
             <div class="cart-heading">
 
-                <h5>Items: <strong>3</strong></h5>
-                <h5>Total:<strong> ₹7999</strong></h5>
+                <h5>Items: <strong>{{order.get_cart_total_items}}</strong></h5>
+                <h5>Total:<strong> ₹ {{order.get_cart_total_price}}</strong></h5>
                 <p><a class="btn btn-success" href="{% url 'checkout' %}">Checkout</a></p>
 
             </div>
@@ -31,31 +31,19 @@
                 <div><strong>Quantity</strong></div>
                 <div><strong>Total</strong></div>
 
-
-                <div><img class="row-image" src="{% static 'images/thumbnail_shoe.jpg' %}"></div>
-                    <div><p>Product 1</p></div>
-                    <div><p>₹999</p></div>
+                {% for item in items %}
+                <div><img class="row-image" src="{{item.product.imageURL}}"></div>
+                    <div><p>{{item.product.name}}</p></div>
+                    <div><p>{{item.product.price | floatformat:2}}</p></div>
                     <div>
                         <div class="quantity">
-                            <img class="chg-quantity" src="{% static  'images/add.png' %}">
-                            <p>2</p>
-                            <img class="chg-quantity" src="{% static  'images/minus.png' %}">
+                            <img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart-button" src="{% static  'images/add.png' %}">
+                            <p>{{item.quantity}}</p>
+                            <img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart-button" src="{% static  'images/minus.png' %}">
                         </div>
                     </div>
-                <div><p>₹1999</p></div>
-
-
-                <div><img class="row-image" src="{% static 'images/thumbnail_shoe.jpg' %}"></div>
-                    <div><p>Product 2</p></div>
-                    <div><p>₹999</p></div>
-                    <div>
-                        <div class="quantity">
-                            <img class="chg-quantity" src="{% static  'images/add.png' %}">
-                            <p>5</p>
-                            <img class="chg-quantity" src="{% static  'images/minus.png' %}">
-                        </div>
-                    </div>
-                <div><p>₹4999</p></div>
+                <div><p>₹ {{item.get_total}}</p></div>
+                {% endfor %}
                 
             </div>
         </div>

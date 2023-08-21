@@ -1,45 +1,40 @@
 {% extends 'shoes/main.html' %}
-{% load static %}
 {% block body %}
+{% load static %}
+
+	
 	<div class="row">
+
+		{% for product in products %}
 		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/thumbnail_shoe.jpg' %}">
+			<img class="thumbnail" src="{{product.imageURL}}">
 			<div class="box-element product">
-				<h6><strong>Product</strong></h6>
+				<h6>
+					<strong>{{product.name}}</strong>
+				</h6>
 				<hr>
 
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<p class="pricing_para"><strong>₹999</strong></p>
+				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart-button">
+					Add to Cart
+				</button>
+
+				<a class="btn btn-outline-success" href="#">
+					View
+				</a>
+
+				<p class="pricing_para">
+					<strong>
+						₹ {{product.price | floatformat:2}}
+					</strong>
+					<span class="badge bg-secondary">
+						{{product.condition}}
+					</span>
+				</p>
 
 			</div>
 		</div>
-
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/thumbnail_shoe.jpg' %}">
-			<div class="box-element product">
-				<h6><strong>Product</strong></h6>
-				<hr>
-				
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<p class="pricing_para"><strong>₹999</strong></p>
-				
-			</div>
-		</div>
-
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/thumbnail_shoe.jpg' %}">
-			<div class="box-element product">
-				<h6><strong>Product</strong></h6>
-				<hr>
-
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<p class="pricing_para"><strong>₹999</strong></p>
-
-			</div>
-		</div>
+		{% endfor %}
+		
 	</div>
 
 {% endblock body %}
