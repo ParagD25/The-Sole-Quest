@@ -1,182 +1,254 @@
-{% extends 'shoes/main.html' %}
-{% load static %}
+{% extends 'shoes/main.html' %} {% load static %} {% block body %}
 
-{% block body %}
-
-<div class="row">
-    <div class="col-lg-6">
-        <div class="box-element" id="form-wrapper">
-            <form id="form">
-                <div id="user-info">
-                    <div class="form-field">
-                        <input required class="form-control" type="text" name="customer_name" placeholder="Enter Name">
-                    </div>
-                    <div class="form-field">
-                        <input required class="form-control" type="email" name="customer_email" placeholder="Enter Email">
-                    </div>
-                </div>
-                
-                <hr>
-                <div id="shipping-info">
-        
-                    <p>Shipping Information:</p>
-
-                    <div class="form-field">
-                        <input required class="form-control" type="text" name="address" placeholder="Enter Address">
-                    </div>
-
-                    <div class="form-field">
-                        <input class="form-control" type="text" disabled name="country" value="India">
-                    </div>
-                    
-                    <div class="form-field">
-                        <input required class="form-control" type="text" name="state" placeholder="Enter State">
-                    </div>
-
-                    <div class="form-field">
-                        <input required class="form-control" type="text" name="city" placeholder="Enter City">
-                    </div>
-
-                    <div class="form-field">
-                        <input required class="form-control" type="number" name="zipcode" placeholder="Zip Code">
-                    </div>
-
-                </div>
-
-                <hr>
-                <div class="d-grid gap-2">
-                    <input id="form-button" class="btn btn-success btn-primary" type="submit" value="Continue">
-                </div>
-                
-            </form>
+<!-- <link rel="stylesheet" href="{% static 'css/main.css' %}" /> -->
+<div
+  class="row flex flex-col lg:grid relative gap-2 pt-10 px-2"
+  style="grid-template-columns: 80% 20%"
+>
+  <div class="col-lg-6 bg-white py-3 md:px-4 rounded-md shadow-sm">
+    <div class="box-element bg-white py-3 px-4 rounded-md shadow-sm">
+      <a class="btn btn-outline-dark" href="{% url 'cart' %}"
+        >&#x2190; Back to Cart</a
+      >
+      <h3 class="my-5 text-xl font-bold">Order Summary</h3>
+      {% for item in items %}
+      <!-- small screen -->
+      <!-- SMALL SCREEN -->
+      <div class="grid md:hidden mb-10" style="grid-template-columns: 40% 60%">
+        <div>
+          <img
+            class="row-image w-auto h-full border border-gray-500"
+            src="{{item.product.imageURL}}"
+          />
         </div>
-
-        <br>
-
-        <div class="box-element hidden" id="payment-info">
-            <h4>Payment Options</h4>
-            <button id="make-payment">Proceed Payment</button>
+        <div class="flex flex-col justify-between items-center p-2">
+          <div class="mx-[10%]">
+            <p class="text-md font-semibold text-center">
+              {{item.product.name}}
+            </p>
+          </div>
+          <div><p>₹ {{item.product.price | floatformat:2}}</p></div>
+          <div><p>X {{item.quantity}}</p></div>
         </div>
-        
+      </div>
+
+      <!-- mid screen -->
+      <div
+        class="hidden md:flex checkout-summary md:px-4 pt-8 justify-between gap-2 items-center"
+      >
+        <div>
+          <img
+            class="row-image h-[200px] w-auto shadow-lg"
+            src="{{item.product.imageURL}}"
+          />
+        </div>
+        <div><p class="font-semibold">{{item.product.name}}</p></div>
+        <div><p>₹ {{item.product.price | floatformat:2}}</p></div>
+        <div><p>X {{item.quantity}}</p></div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 
-    <div class="col-lg-6">
-        <div class="box-element">
-            <a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
-            <hr>
-            <h3>Order Summary</h3>
-            <hr>
-            {% for item in items %}
-            <div class="checkout-summary">
-                <div><img class="row-image" src="{{item.product.imageURL}}"></div>
-                <div><p>{{item.product.name}}</p></div>
-                <div><p>₹ {{item.product.price | floatformat:2}}</p></div>
-                <div><p>X {{item.quantity}}</p></div>
-
-            </div>
-            {% endfor %}
-            <div class="total-cart-value">
-                <h5>Items:   {{order.get_cart_total_items}}</h5>
-                <h5>Total:   ₹ {{order.get_cart_total_price | floatformat:2}}</h5>
-            </div>
-            
+  <!-- Shipping Form -->
+  <div class="block">
+    <div class="col-lg-6 sticky top-10 flex flex-col gap-6">
+      <div class="box-element bg-white py-3 px-4 rounded-md shadow-sm">
+        <div class="total-cart-value flex flex-col items-center gap-3">
+          <h5>
+            <span class="text-xl font-semibold">Items:</span>
+            {{order.get_cart_total_items}}
+          </h5>
+          <h5>
+            <span class="text-xl font-semibold">Total:</span> ₹
+            {{order.get_cart_total_price | floatformat:2}}
+          </h5>
         </div>
+      </div>
+      <div
+        class="box-element bg-white py-3 px-4 rounded-md shadow-sm"
+        id="form-wrapper"
+      >
+        <form id="form" class="flex flex-col gap-2">
+          <div id="user-info flex flex-col gap-2">
+            <div class="form-field mt-4">
+              <input
+                required
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="text"
+                name="customer_name"
+                placeholder="Enter Name"
+              />
+            </div>
+            <div class="form-field mt-4">
+              <input
+                required
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="email"
+                name="customer_email"
+                placeholder="Enter Email"
+              />
+            </div>
+          </div>
+
+          <hr />
+          <div id="shipping-info" class="mt-4">
+            <p>Shipping Information:</p>
+
+            <div class="form-field mt-2">
+              <input
+                required
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="text"
+                name="address"
+                placeholder="Enter Address"
+              />
+            </div>
+
+            <div class="form-field mt-4">
+              <input
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="text"
+                disabled
+                name="country"
+                value="India"
+              />
+            </div>
+
+            <div class="form-field mt-4">
+              <input
+                required
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="text"
+                name="state"
+                placeholder="Enter State"
+              />
+            </div>
+
+            <div class="form-field mt-4">
+              <input
+                required
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="text"
+                name="city"
+                placeholder="Enter City"
+              />
+            </div>
+
+            <div class="form-field mt-4">
+              <input
+                required
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="number"
+                name="zipcode"
+                placeholder="Zip Code"
+              />
+            </div>
+          </div>
+
+          <hr />
+          <div class="d-grid gap-2 mt-4">
+            <input
+              id="form-button"
+              class="btn btn-success btn-primary w-full bg-gray-900 font-bold rounded-2xl py-1 px-2 text-white"
+              type="submit"
+              value="Continue"
+            />
+          </div>
+        </form>
+      </div>
+
+      <br />
+
+      <div class="box-element hidden" id="payment-info">
+        <h4>Payment Options</h4>
+        <button id="make-payment">Proceed Payment</button>
+      </div>
     </div>
+  </div>
 </div>
 
-
-
 <script>
-    var shippingCharge = "{{order.shippingCharge}}";
-    var totalCartValueElements = document.getElementsByClassName("total-cart-value");
-    var total_price = '{{order.get_cart_total_price}}'
+  var shippingCharge = "{{order.shippingCharge}}";
+  var totalCartValueElements =
+    document.getElementsByClassName("total-cart-value");
+  var total_price = "{{order.get_cart_total_price}}";
 
-    for (var i = 0; i < totalCartValueElements.length; i++) {
-        var element = totalCartValueElements[i];
-        if (shippingCharge == 0) {
-            element.innerHTML += "<h5>Shipping Charges: Free Shipping</h5>";
-        } else {
-            element.innerHTML += "<h5>Shipping Charges: ₹ " + shippingCharge + "</h5>";
-        }
+  for (var i = 0; i < totalCartValueElements.length; i++) {
+    var element = totalCartValueElements[i];
+    if (shippingCharge == 0) {
+      element.innerHTML += "<h5>Shipping Charges: Free Shipping</h5>";
+    } else {
+      element.innerHTML +=
+        "<h5>Shipping Charges: ₹ " + shippingCharge + "</h5>";
+    }
+  }
+
+  // if (user!= "AnonymousUser") {
+  //     document.getElementById("user-info").classList.add('hidden')
+  // }
+
+  var form = document.getElementById("form");
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    console.log("form is been Submitted");
+    document.getElementById("form-button").classList.add("hidden");
+    document.getElementById("payment-info").classList.remove("hidden");
+  });
+
+  document
+    .getElementById("make-payment")
+    .addEventListener("click", function (e) {
+      submitFormData();
+    });
+
+  function submitFormData() {
+    console.log("Payment Continue");
+    console.log(form.address.value);
+
+    var userForm = {
+      customer_name: null,
+      customer_email: null,
+      total_price: total_price,
+    };
+
+    var shippingInfo = {
+      address: null,
+      state: null,
+      city: null,
+      zipcode: null,
+    };
+
+    order_type_physical = true;
+
+    if (order_type_physical == true) {
+      shippingInfo.address = form.address.value;
+      shippingInfo.state = form.state.value;
+      shippingInfo.city = form.city.value;
+      shippingInfo.zipcode = form.zipcode.value;
     }
 
-
-    // if (user!= "AnonymousUser") {
-    //     document.getElementById("user-info").classList.add('hidden')
-    // }
-
-
-
-    var form = document.getElementById("form");
-    form.addEventListener('submit',function(event){
-        event.preventDefault()
-        console.log("form is been Submitted")
-        document.getElementById("form-button").classList.add('hidden')
-        document.getElementById("payment-info").classList.remove('hidden')
-    })
-
-
-    document.getElementById('make-payment').addEventListener('click',function(e){
-        submitFormData()
-    })
-
-    function submitFormData(){
-        console.log("Payment Continue")
-        console.log(form.address.value)
-
-        var userForm = {
-            'customer_name':null,
-            'customer_email':null,
-            'total_price':total_price,
-
-        }
-
-        var shippingInfo = {
-            'address':null,
-            'state':null,
-            'city':null,
-            'zipcode':null,
-        }
-
-        order_type_physical=true
-
-        if(order_type_physical==true){
-
-            shippingInfo.address = form.address.value
-            shippingInfo.state = form.state.value
-            shippingInfo.city = form.city.value
-            shippingInfo.zipcode = form.zipcode.value
-
-        }
-                
-
-
-        if(user == "AnonymousUser"){
-            userForm.customer_name = form.customer_name.value
-            userForm.customer_email = form.customer_email.value
-        }
-
-
-        var url = "/process-order/"
-        fetch(url,{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
-                'X-CSRFToken':csrftoken,
-            },
-            body:JSON.stringify({'form':userForm,'shipping':shippingInfo})
-        })
-
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Success:",data);
-            alert("Transaction Completed");
-            window.location.href="{% url 'shoestore' %}"
-        })
-
-
+    if (user == "AnonymousUser") {
+      userForm.customer_name = form.customer_name.value;
+      userForm.customer_email = form.customer_email.value;
     }
 
+    var url = "/process-order/";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify({ form: userForm, shipping: shippingInfo }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        alert("Transaction Completed");
+        window.location.href = "{% url 'shoestore' %}";
+      });
+  }
 </script>
 
 {% endblock body %}
