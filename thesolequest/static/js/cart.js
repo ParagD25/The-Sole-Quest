@@ -6,13 +6,39 @@ for(var i=0;i<UpdateButtons.length;i++){
         var action=this.dataset.action
 
         if (user=='AnonymousUser'){
-            console.log('Not logged in')
+            addIteminCookie(productID,action)
         }
         else{
             updateUserOrder(productID,action)
         }
 
     })
+
+}
+
+function addIteminCookie(productID,action){
+
+    console.log("You are not logged in / Cookie is not set yet")
+
+    if (action=='add'){
+        if (cart[productID]==undefined){
+            cart[productID]={'quantity':1}
+        }
+        else{
+            cart[productID]['quantity']+=1
+        }
+    }
+
+    if (action=='remove'){
+        cart[productID]['quantity']-=1
+
+        if (cart[productID]['quantity']<=0){
+            console.log('Item Would be deleted from the cart !!')
+            delete cart[productID]
+        }
+    }
+
+    document.cookie='cart='+JSON.stringify(cart)+";domain=;path=/"
 
 }
 

@@ -52,7 +52,35 @@
       }
       const csrftoken = getToken("csrftoken");
 
-      function getCookie(name) {}
+      function getCookie(name) {
+        var cookieValue = document.cookie.split(";");
+        for (var i = 0; i < cookieValue.length; i++) {
+          var cookiePair = cookieValue[i].split("=");
+
+          if (name === cookiePair[0].trim()) {
+            // Print the cookie value for debugging
+            console.log("Cookie Value:", cookiePair[1]);
+
+            return decodeURIComponent(cookiePair[1]);
+          }
+        }
+        return null;
+      }
+
+      var cartCookieValue = getCookie("cart");
+      console.log("cartCookieValue:", cartCookieValue);
+
+      try {
+        var cart = JSON.parse(cartCookieValue);
+        if (cart == undefined) {
+          cart = {};
+          console.log("cart is been created");
+          document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/";
+        }
+        console.log("cart:", cart);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
     </script>
     <style>
       body {
