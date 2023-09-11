@@ -2,20 +2,14 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Customer, ShoeCondition, Product, Order, OrderItem, Shipping
 import json, uuid
+from .utils import guestUserOrder, productDataUtils
 
 # Create your views here.
 
 
 def shoestore(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_total_items
-    else:
-        items = []
-        order = {"get_cart_total_items": 0, "get_cart_total_price": 0}
-        cartItems = order["get_cart_total_items"]
+    UserData = productDataUtils(request)
+    cartItems = UserData["cartItems"]
 
     products = Product.objects.all()
     context = {"products": products, "cartItems": cartItems, "shippingCharge": 0}
@@ -23,15 +17,10 @@ def shoestore(request):
 
 
 def cart(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_total_items
-    else:
-        items = []
-        order = {"get_cart_total_items": 0, "get_cart_total_price": 0}
-        cartItems = order["get_cart_total_items"]
+    UserData = productDataUtils(request)
+    items = UserData["items"]
+    order = UserData["order"]
+    cartItems = UserData["cartItems"]
 
     context = {
         "items": items,
@@ -43,15 +32,10 @@ def cart(request):
 
 
 def checkout(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_total_items
-    else:
-        items = []
-        order = {"get_cart_total_items": 0, "get_cart_total_price": 0}
-        cartItems = order["get_cart_total_items"]
+    UserData = productDataUtils(request)
+    items = UserData["items"]
+    order = UserData["order"]
+    cartItems = UserData["cartItems"]
 
     context = {
         "items": items,
@@ -95,21 +79,44 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        total_price = data["form"]["total_price"]
-        order.transaction_id = transaction_id
-
-        if float(total_price) == float(order.get_cart_total_price):
-            order.complete = True
-        order.save()
-
-        Shipping.objects.create(
-            customer=customer,
-            order=order,
-            address=data["shipping"]["address"],
-            city=data["shipping"]["city"],
-            zipcode=data["shipping"]["zipcode"],
-        )
 
     else:
-        print("User not checked out")
+        print("Guest User ...")
+        print("COOKIES:", request.COOKIES)
+
+        name = data["form"]["name"]
+        email = data["form"]["email"]
+
+        guestUserData = guestUserOrder(request)
+        items = guestUserData["items"]
+
+        customer, created = Customer.objects.get_or_create(email=email)
+        customer.name = name
+        customer.save()
+
+        order = Order.objects.create(
+            customer=customer, complete=False, transaction_id=transaction_id
+        )
+
+        for item in items:
+            product = Product.objects.get(id=item["product"]["id"])
+            orderItem = OrderItem.objects.create(
+                product=product, order=order, quantity=item["quantity"]
+            )
+
+    total_price = data["form"]["total_price"]
+    order.transaction_id = transaction_id
+
+    if float(total_price) == float(order.get_cart_total_price):
+        order.complete = True
+    order.save()
+
+    Shipping.objects.create(
+        customer=customer,
+        order=order,
+        address=data["shipping"]["address"],
+        city=data["shipping"]["city"],
+        zipcode=data["shipping"]["zipcode"],
+    )
+
     return JsonResponse("payment complete", safe=False)

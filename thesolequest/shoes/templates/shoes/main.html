@@ -59,7 +59,7 @@
 
           if (name === cookiePair[0].trim()) {
             // Print the cookie value for debugging
-            console.log("Cookie Value:", cookiePair[1]);
+            // console.log("Cookie Value:", cookiePair[1]);
 
             return decodeURIComponent(cookiePair[1]);
           }
@@ -68,7 +68,7 @@
       }
 
       var cartCookieValue = getCookie("cart");
-      console.log("cartCookieValue:", cartCookieValue);
+      // console.log("cartCookieValue:", cartCookieValue);
 
       try {
         var cart = JSON.parse(cartCookieValue);
