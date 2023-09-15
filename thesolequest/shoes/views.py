@@ -52,10 +52,17 @@ def registerPage(request):
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
+
+            # Create the associated Customer instance
+            customer = Customer.objects.create(user=user)
+            customer.name = user.username
+            customer.email = user.email
+            customer.save()
+
             login(request, user)
             return redirect("shoestore")
         else:
-            print("Error occurred during Registrations")
+            print(form.errors)
     return render(request, "shoes/login_register.html", {"form": form})
 
 
@@ -136,8 +143,8 @@ def processOrder(request):
         print("Guest User ...")
         print("COOKIES:", request.COOKIES)
 
-        name = data["form"]["name"]
-        email = data["form"]["email"]
+        name = data["form"]["customer_name"]
+        email = data["form"]["customer_email"]
 
         guestUserData = guestUserOrder(request)
         items = guestUserData["items"]

@@ -1,25 +1,17 @@
 {% extends 'shoes/main.html' %} {% load static %} {% block body %}
 
 <!-- <link rel="stylesheet" href="{% static 'css/main.css' %}" /> -->
-<div
-  class="row flex flex-col lg:grid relative gap-2 pt-10 px-2"
-  style="grid-template-columns: 80% 20%"
->
+<div class="row flex flex-col lg:grid relative gap-2 pt-10 px-2" style="grid-template-columns: 80% 20%">
   <div class="col-lg-6 bg-white py-3 md:px-4 rounded-md shadow-sm">
     <div class="box-element bg-white py-3 px-4 rounded-md shadow-sm">
-      <a class="btn btn-outline-dark" href="{% url 'cart' %}"
-        >&#x2190; Back to Cart</a
-      >
+      <a class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
       <h3 class="my-5 text-xl font-bold">Order Summary</h3>
       {% for item in items %}
       <!-- small screen -->
       <!-- SMALL SCREEN -->
       <div class="grid md:hidden mb-10" style="grid-template-columns: 40% 60%">
         <div>
-          <img
-            class="row-image w-auto h-full border border-gray-500"
-            src="{{item.product.imageURL}}"
-          />
+          <img class="row-image w-auto h-full border border-gray-500" src="{{item.product.imageURL}}" />
         </div>
         <div class="flex flex-col justify-between items-center p-2">
           <div class="mx-[10%]">
@@ -27,24 +19,29 @@
               {{item.product.name}}
             </p>
           </div>
-          <div><p>₹ {{item.product.price | floatformat:2}}</p></div>
-          <div><p>X {{item.quantity}}</p></div>
+          <div>
+            <p>₹ {{item.product.price | floatformat:2}}</p>
+          </div>
+          <div>
+            <p>X {{item.quantity}}</p>
+          </div>
         </div>
       </div>
 
       <!-- mid screen -->
-      <div
-        class="hidden md:flex checkout-summary md:px-4 pt-8 justify-between gap-2 items-center"
-      >
+      <div class="hidden md:flex checkout-summary md:px-4 pt-8 justify-between gap-2 items-center">
         <div>
-          <img
-            class="row-image h-[200px] w-auto shadow-lg"
-            src="{{item.product.imageURL}}"
-          />
+          <img class="row-image h-[200px] w-auto shadow-lg" src="{{item.product.imageURL}}" />
         </div>
-        <div><p class="font-semibold">{{item.product.name}}</p></div>
-        <div><p>₹ {{item.product.price | floatformat:2}}</p></div>
-        <div><p>X {{item.quantity}}</p></div>
+        <div>
+          <p class="font-semibold">{{item.product.name}}</p>
+        </div>
+        <div>
+          <p>₹ {{item.product.price | floatformat:2}}</p>
+        </div>
+        <div>
+          <p>X {{item.quantity}}</p>
+        </div>
       </div>
       {% endfor %}
     </div>
@@ -65,95 +62,83 @@
           </h5>
         </div>
       </div>
-      <div
-        class="box-element bg-white py-3 px-4 rounded-md shadow-sm"
-        id="form-wrapper"
-      >
+      <div class="box-element bg-white py-3 px-4 rounded-md shadow-sm" id="form-wrapper">
         <form id="form" class="flex flex-col gap-2">
+          {% if request.user.is_authenticated %}
+
           <div id="user-info flex flex-col gap-2">
             <div class="form-field mt-4">
-              <input
-                required
+              <label class="text-sm font-semibold">Username:</label>
+              <input required
                 class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                type="text"
-                name="customer_name"
-                placeholder="Enter Name"
-              />
+                type="text" name="customer_name" value={{request.user.username}} disabled />
             </div>
             <div class="form-field mt-4">
-              <input
-                required
+              <label class="text-sm font-semibold">Email:</label>
+              <input required
                 class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                type="email"
-                name="customer_email"
-                placeholder="Enter Email"
-              />
+                type="email" name="customer_email" value={{request.user.email}} />
             </div>
           </div>
+
+          {% else %}
+          <div id="user-info flex flex-col gap-2">
+            <div class="form-field mt-4">
+              <label class="text-sm font-semibold">Username:</label>
+              <input required
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="text" name="customer_name" placeholder="Enter Name" />
+            </div>
+            <div class="form-field mt-4">
+              <label class="text-sm font-semibold">Email:</label>
+              <input required
+                class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                type="email" name="customer_email" placeholder="Enter Email" />
+            </div>
+          </div>
+          {% endif %}
+
 
           <hr />
           <div id="shipping-info" class="mt-4">
             <p>Shipping Information:</p>
 
             <div class="form-field mt-2">
-              <input
-                required
+              <input required
                 class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                type="text"
-                name="address"
-                placeholder="Enter Address"
-              />
+                type="text" name="address" placeholder="Enter Address" />
             </div>
 
             <div class="form-field mt-4">
               <input
                 class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                type="text"
-                disabled
-                name="country"
-                value="India"
-              />
+                type="text" disabled name="country" value="India" />
             </div>
 
             <div class="form-field mt-4">
-              <input
-                required
+              <input required
                 class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                type="text"
-                name="state"
-                placeholder="Enter State"
-              />
+                type="text" name="state" placeholder="Enter State" />
             </div>
 
             <div class="form-field mt-4">
-              <input
-                required
+              <input required
                 class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                type="text"
-                name="city"
-                placeholder="Enter City"
-              />
+                type="text" name="city" placeholder="Enter City" />
             </div>
 
             <div class="form-field mt-4">
-              <input
-                required
+              <input required
                 class="form-control flex py-1 w-full rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                type="number"
-                name="zipcode"
-                placeholder="Zip Code"
-              />
+                type="number" name="zipcode" placeholder="Zip Code" />
             </div>
           </div>
 
           <hr />
           <div class="d-grid gap-2 mt-4">
-            <input
-              id="form-button"
+            <input id="form-button"
               class="btn btn-success btn-primary w-full bg-gray-900 font-bold rounded-2xl py-1 px-2 text-white"
-              type="submit"
-              value="Continue"
-            />
+              type="submit" value="Continue" />
           </div>
         </form>
       </div>
@@ -162,7 +147,9 @@
 
       <div class="box-element hidden" id="payment-info">
         <h4>Payment Options</h4>
-        <button id="make-payment">Proceed Payment</button>
+        <button id="make-payment"
+          class="btn btn-success btn-primary w-full bg-gray-900 font-bold rounded-2xl py-1 px-2 text-white">Compelete
+          Payment</button>
       </div>
     </div>
   </div>

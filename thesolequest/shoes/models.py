@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 
@@ -49,7 +50,7 @@ class Order(models.Model):
     transaction_id = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return f"{str(self.id)} - {str(self.transaction_id)}"
+        return f"{str(self.date_ordered.date())} : {str(self.id)} - {str(self.transaction_id)}"
 
     @property
     def get_cart_total_price(self):
@@ -68,7 +69,9 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total_items = sum([item.quantity for item in orderitems])
         total_cost = sum([item.get_total for item in orderitems])
-        if total_cost > 24999:
+        if total_cost == 0:
+            shippingCharge = 0
+        elif total_cost > 24999:
             shippingCharge = 0
         else:
             shippingCharge = 1250
@@ -84,7 +87,9 @@ class OrderItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{str(self.id)} - {str(self.product.name)}"
+        return (
+            f"{str(self.date_added.date())} : {str(self.id)} - {str(self.product.name)}"
+        )
 
     @property
     def get_total(self):

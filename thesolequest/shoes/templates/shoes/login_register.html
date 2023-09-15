@@ -55,7 +55,7 @@
                                 <input
                                     class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                     id="username" name="username" type="text" autocapitalize="none" autocomplete="none"
-                                    placeholder="Enter Username" required />
+                                    placeholder="Username" required />
 
                                 <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
@@ -63,7 +63,7 @@
                                 <input
                                     class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                     id="password" name="password" type="password" autocapitalize="none"
-                                    autocomplete="none" placeholder="Enter Password" required />
+                                    autocomplete="none" placeholder="Password" required />
                             </div>
                             <button
                                 class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 py-2 px-4 bg-gray-900 text-white"
@@ -120,18 +120,54 @@
                 <div class="grid gap-6">
                     <form class="relative pt-10" action="" method="POST">
                         {% csrf_token %}
-                        {% for field in form %}
                         <div class="grid gap-2">
+                            {% for field in form %}
                             <div class="grid gap-4">
-                                <label
+                                <!-- <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
-                                    for="register">{{field.label.title}}</label>
+                                    for="register">{{field.label.title}}</label> -->
 
+                                <label for="register">{{field.label.title}}</label>
                                 {{field}}
 
-                            </div>
+                                <!-- <label
+                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
+                                    for="username">Username</label>
+                                <input
+                                    class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    id="username" name="username" type="text" autocapitalize="none" autocomplete="none"
+                                    placeholder="Username" required />
 
+                                <label
+                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
+                                    for="password">Password</label>
+                                <input
+                                    class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    id="password" name="password" type="password" autocapitalize="none"
+                                    autocomplete="none" placeholder="Password" required />
+
+
+                                <label
+                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
+                                    for="Confirm password">Confirm Password</label>
+                                <input
+                                    class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    id="Confirm password" name="Confirm password" type="password" autocapitalize="none"
+                                    autocomplete="none" placeholder="Confirm Password" required />
+
+                                <label
+                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
+                                    for="email">Email</label>
+                                <input
+                                    class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    id="email" name="email" type="email" autocapitalize="none" autocomplete="none"
+                                    placeholder="Email" required /> -->
+
+
+
+                            </div>
                             {% endfor %}
+
 
                             <button
                                 class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 py-2 px-4 bg-gray-900 text-white"
