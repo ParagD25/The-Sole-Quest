@@ -123,46 +123,10 @@
                         <div class="grid gap-2">
                             {% for field in form %}
                             <div class="grid gap-4">
-                                <!-- <label
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
-                                    for="register">{{field.label.title}}</label> -->
 
-                                <label for="register">{{field.label.title}}</label>
+                                <label for="register"
+                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only">{{field.label.title}}</label>
                                 {{field}}
-
-                                <!-- <label
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
-                                    for="username">Username</label>
-                                <input
-                                    class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    id="username" name="username" type="text" autocapitalize="none" autocomplete="none"
-                                    placeholder="Username" required />
-
-                                <label
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
-                                    for="password">Password</label>
-                                <input
-                                    class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    id="password" name="password" type="password" autocapitalize="none"
-                                    autocomplete="none" placeholder="Password" required />
-
-
-                                <label
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
-                                    for="Confirm password">Confirm Password</label>
-                                <input
-                                    class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    id="Confirm password" name="Confirm password" type="password" autocapitalize="none"
-                                    autocomplete="none" placeholder="Confirm Password" required />
-
-                                <label
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
-                                    for="email">Email</label>
-                                <input
-                                    class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    id="email" name="email" type="email" autocapitalize="none" autocomplete="none"
-                                    placeholder="Email" required /> -->
-
 
 
                             </div>
@@ -172,17 +136,6 @@
                             <button
                                 class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 py-2 px-4 bg-gray-900 text-white"
                                 type="submit">
-                                <!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                    viewBox="0 0 32 32">
-                                    <title>lock</title>
-                                    <path
-                                        d="M27 12h-1v-2c0-5.514-4.486-10-10-10s-10 4.486-10 10v2h-1c-0.553 0-1 0.447-1 1v18c0 0.553 0.447 1 1 1h22c0.553 0 1-0.447 1-1v-18c0-0.553-0.447-1-1-1zM8 10c0-4.411 3.589-8 8-8s8 3.589 8 8v2h-16v-2zM26 30h-20v-16h20v16z">
-                                    </path>
-                                    <path
-                                        d="M15 21.694v4.306h2v-4.306c0.587-0.348 1-0.961 1-1.694 0-1.105-0.895-2-2-2s-2 0.895-2 2c0 0.732 0.413 1.345 1 1.694z">
-                                    </path>
-                                </svg> -->
-
                                 Register
                             </button>
                         </div>

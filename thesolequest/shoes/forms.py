@@ -5,10 +5,64 @@ from django.core.exceptions import ValidationError
 
 
 class CustomUserCreationForm(UserCreationForm):
-    username = forms.CharField(label="username", min_length=5, max_length=150)
-    email = forms.EmailField(label="email")
-    password1 = forms.CharField(label="password", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Confirm password", widget=forms.PasswordInput)
+    username = forms.CharField(
+        label="username",
+        min_length=5,
+        max_length=150,
+        widget=forms.TextInput(
+            attrs={
+                "class": "flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                "placeholder": "Enter Username",
+            }
+        ),
+    )
+    first_name = forms.CharField(
+        label="First Name",
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                "class": "flex h-10 w-1/2 rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                "placeholder": "First Name",
+            }
+        ),
+    )
+    last_name = forms.CharField(
+        label="Last Name",
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                "class": "flex h-10 w-1/2 rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                "placeholder": "Last Name",
+            }
+        ),
+    )
+    email = forms.EmailField(
+        label="email",
+        widget=forms.EmailInput(
+            attrs={
+                "class": "flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                "placeholder": "Email",
+            }
+        ),
+    )
+    password1 = forms.CharField(
+        label="password",
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                "placeholder": "Enter Password",
+            }
+        ),
+    )
+    password2 = forms.CharField(
+        label="Confirm password",
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                "placeholder": "Confirm Password",
+            }
+        ),
+    )
 
     def username_clean(self):
         username = self.cleaned_data["username"].lower()
@@ -34,8 +88,10 @@ class CustomUserCreationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = User.objects.create_user(
-            self.cleaned_data["username"],
-            self.cleaned_data["email"],
-            self.cleaned_data["password1"],
+            username=self.cleaned_data["username"],
+            first_name=self.cleaned_data["first_name"],
+            last_name=self.cleaned_data["last_name"],
+            email=self.cleaned_data["email"],
+            password=self.cleaned_data["password1"],
         )
         return user
