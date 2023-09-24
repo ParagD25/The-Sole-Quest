@@ -14,6 +14,8 @@ from .forms import CustomUserCreationForm
 
 def loginPage(request):
     page = "login"
+    UserData = productDataUtils(request)
+    cartItems = UserData["cartItems"]
 
     if request.user.is_authenticated:
         return redirect("shoestore")
@@ -35,7 +37,7 @@ def loginPage(request):
         else:
             print("Username or Password incorrect")
 
-    context = {"page": page}
+    context = {"page": page, "cartItems": cartItems}
     return render(request, "shoes/login_register.html", context)
 
 
@@ -46,6 +48,8 @@ def logoutPage(request):
 
 def registerPage(request):
     form = CustomUserCreationForm()
+    UserData = productDataUtils(request)
+    cartItems = UserData["cartItems"]
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -63,7 +67,8 @@ def registerPage(request):
             return redirect("shoestore")
         else:
             print(form.errors)
-    return render(request, "shoes/login_register.html", {"form": form})
+    context = {"form": form, "cartItems": cartItems}
+    return render(request, "shoes/login_register.html", context)
 
 
 def shoestore(request):
@@ -73,6 +78,15 @@ def shoestore(request):
     products = Product.objects.all()
     context = {"products": products, "cartItems": cartItems, "shippingCharge": 0}
     return render(request, "shoes/shoestore.html", context)
+
+
+def shoeDetails(request, pk):
+    UserData = productDataUtils(request)
+    cartItems = UserData["cartItems"]
+
+    product = Product.objects.get(id=pk)
+    context = {"product": product, "cartItems": cartItems, "shippingCharge": 0}
+    return render(request, "shoes/shoedetail.html", context)
 
 
 def cart(request):

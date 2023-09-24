@@ -4,11 +4,14 @@
   {% for product in products %}
   <div class="flex flex-col justify-center">
     <div class="relative m-3 flex flex-wrap mx-auto justify-center">
-      <div class="relative max-w-sm min-w-[340px] bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
-        <div class="overflow-x-hidden rounded-2xl relative overflow-hidden bg-[#f7f7f7]">
-          <img
-            class="h-52 sm:h-80 rounded-2xl w-full object-cover hover:scale-[1.05] hover:rotate-[15deg] transition duration-1000 ease-in-out"
-            src="{{product.imageURL}}" />
+
+      <div class="relative max-w-sm min-w-[340px] bg-white shadow-md rounded-3xl p-2 mx-1 my-3">
+        <div class="overflow-x-hidden rounded-2xl relative overflow-hidden bg-[#f7f7f7] cursor-pointer">
+          <a href="{% url 'shoe-detail' product.id%}">
+            <img
+              class="h-52 sm:h-80 rounded-2xl w-full object-cover hover:scale-[1.05] hover:rotate-[15deg] transition duration-1000 ease-in-out"
+              src="{{product.imageURL}}" />
+          </a>
           <p class="absolute right-2 top-2 bg-white rounded-full p-2 cursor-pointer group">
             <!--  -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:opacity-70" fill="none"
@@ -33,7 +36,7 @@
           <div class="flex flex-1 w-full flex-col-reverse mb-1 mr-4 group cursor-pointer">
             <!-- Cart BUtton -->
             <button data-product="{{product.id}}" data-action="add"
-              class="flex w-[100px] items-center justify-end btn btn-outline-secondary add-btn update-cart-button">
+              class="flex w-[100px] items-center justify-end btn btn-outline-secondary add-btn update-cart-button transition ease-in-out hover:scale-150 duration-500 hover:-translate-x-6">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:opacity-50 opacity-70" fill="none"
                 viewBox="0 0 24 24" stroke="black">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -43,6 +46,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <!-- <div class="col-lg-4">
