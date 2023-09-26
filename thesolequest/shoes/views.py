@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Customer, ShoeCondition, Product, Order, OrderItem, Shipping
 import json, uuid
+from django.db.models import Q
 from .utils import guestUserOrder, productDataUtils
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -75,9 +76,18 @@ def shoestore(request):
     UserData = productDataUtils(request)
     cartItems = UserData["cartItems"]
 
-    products = Product.objects.all()
+    search_element = (
+        request.GET.get("search") if request.GET.get("search") != None else ""
+    )
+    products = Product.objects.filter(
+        Q(brand__brand__icontains=search_element) | Q(name__icontains=search_element)
+    )
+
     context = {"products": products, "cartItems": cartItems, "shippingCharge": 0}
-    return render(request, "shoes/shoestore.html", context)
+    if products.count() > 0:
+        return render(request, "shoes/shoestore.html", context)
+    else:
+        return redirect("error-page")
 
 
 def shoeDetails(request, pk):
@@ -123,8 +133,8 @@ def updateCart(request):
     data = json.loads(request.body)
     productId = data["productID"]
     action = data["action"]
-    print("Action:", action)
-    print("Product:", productId)
+    # print("Action:", action)
+    # print("Product:", productId)
 
     customer = request.user.customer
     product = Product.objects.get(id=productId)
@@ -146,7 +156,7 @@ def updateCart(request):
 
 
 def processOrder(request):
-    print("Data:", request.body)
+    # print("Data:", request.body)
     transaction_id = uuid.uuid4().hex
     data = json.loads(request.body)
     if request.user.is_authenticated:
@@ -154,8 +164,8 @@ def processOrder(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
 
     else:
-        print("Guest User ...")
-        print("COOKIES:", request.COOKIES)
+        # print("Guest User ...")
+        # print("COOKIES:", request.COOKIES)
 
         name = data["form"]["customer_name"]
         email = data["form"]["customer_email"]
@@ -193,3 +203,11 @@ def processOrder(request):
     )
 
     return JsonResponse("payment complete", safe=False)
+
+
+def errorPage(request):
+    UserData = productDataUtils(request)
+    cartItems = UserData["cartItems"]
+    context = {"cartItems": cartItems}
+
+    return render(request, "shoes/errorpage.html", context)

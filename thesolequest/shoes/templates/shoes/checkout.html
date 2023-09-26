@@ -1,17 +1,20 @@
 {% extends 'shoes/main.html' %} {% load static %} {% block body %}
 
 <!-- <link rel="stylesheet" href="{% static 'css/main.css' %}" /> -->
-<div class="row flex flex-col lg:grid relative gap-2 pt-10 px-2" style="grid-template-columns: 80% 20%">
+<div class="row flex flex-col lg:grid relative gap-2 pt-10 px-2" style="grid-template-columns: 75% 25%">
   <div class="col-lg-6 bg-white py-3 md:px-4 rounded-md shadow-sm">
     <div class="box-element bg-white py-3 px-4 rounded-md shadow-sm">
-      <a class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+      <a class="btn btn-outline-dark hover:text-red-500" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
       <h3 class="my-5 text-xl font-bold">Order Summary</h3>
       {% for item in items %}
       <!-- small screen -->
       <!-- SMALL SCREEN -->
       <div class="grid md:hidden mb-10" style="grid-template-columns: 40% 60%">
         <div>
-          <img class="row-image w-auto h-full border border-gray-500" src="{{item.product.imageURL}}" />
+          <a href="{% url 'shoe-detail' item.product.id%}">
+            <img class="row-image w-auto h-full border border-gray-500 shadow-sm shadow-slate-500 hover:scale-105"
+              src="{{item.product.imageURL}}" />
+          </a>
         </div>
         <div class="flex flex-col justify-between items-center p-2">
           <div class="mx-[10%]">
@@ -31,7 +34,10 @@
       <!-- mid screen -->
       <div class="hidden md:flex checkout-summary md:px-4 pt-8 justify-between gap-2 items-center">
         <div>
-          <img class="row-image h-[200px] w-auto shadow-lg" src="{{item.product.imageURL}}" />
+          <a href="{% url 'shoe-detail' item.product.id%}">
+            <img class="row-image h-[200px] w-auto shadow-sm shadow-slate-500 hover:scale-105"
+              src="{{item.product.imageURL}}" />
+          </a>
         </div>
         <div>
           <p class="font-semibold">{{item.product.name}}</p>

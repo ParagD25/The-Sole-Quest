@@ -93,16 +93,18 @@
       <!-- navbar -->
       <nav class="flex justify-between bg-gray-900 text-white w-full py-0.5">
         <div class="px-5 xl:px-12 py-6 flex w-full justify-between md:items-center">
-          <a class="text-3xl tracking-tighter font-bold font-heading" href="/">
+          <a class="text-2xl md:text-3xl tracking-tighter font-bold font-heading" href="/">
             The Sole Quest
           </a>
           <!-- Input Search -->
-          <div class="text-white hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
+          <form method="GET" action="{% url 'shoestore' %}">
+            <div class="text-white hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
 
-            <input
-              class="flex py-1 w-[300px] rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 placeholder:translate-x-16 -translate-x-6"
-              placeholder="Search your Sole &#9819;" />
-          </div>
+              <input
+                class="flex py-1 w-[300px] rounded-md border border-input bg-gray-200 bg-opacity-25 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 placeholder:translate-x-16 -translate-x-6"
+                placeholder="Search your Sole &#9819;" name="search" />
+            </div>
+          </form>
           <!-- Header Icons -->
           <div class="flex items-center space-x-5">
             <!-- Wishlist Icon -->

@@ -16,8 +16,11 @@
         <!-- SMALL SCREEN -->
         <div class="grid sm:hidden mb-10" style="grid-template-columns: 40% 60%">
           <div>
-            <img class="row-image w-auto h-full border border-gray-500 shadow-sm shadow-slate-500 hover:scale-105"
-              src="{{item.product.imageURL}}" />
+            <a href="{% url 'shoe-detail' item.product.id%}">
+              <img class="row-image w-auto h-full border border-gray-500 shadow-sm shadow-slate-500 hover:scale-105"
+                src="{{item.product.imageURL}}" />
+            </a>
+
           </div>
           <div class="flex flex-col justify-between items-center p-2">
             <div class="mx-[10%]">
@@ -41,7 +44,6 @@
                   <path d="M12 5v14" />
                 </svg>
 
-                <!-- <img src="{% static  'images/add.png' %}" /> -->
                 <p>{{item.quantity}}</p>
                 <svg data-product="{{item.product.id}}" data-action="remove"
                   class="chg-quantity update-cart-button p-1 border rounded-md cursor-pointer"
@@ -50,12 +52,7 @@
                   class="lucide lucide-minus">
                   <path d="M5 12h14" />
                 </svg>
-                <!-- <img
-                data-product="{{item.product.id}}"
-                data-action="remove"
-                class="chg-quantity update-cart-button"
-                src="{% static  'images/minus.png' %}"
-              /> -->
+
               </div>
             </div>
             <div>
@@ -66,8 +63,10 @@
 
         <!-- MID SCREEN -->
         <div class="hidden sm:block">
-          <img class="row-image h-52 sm:h-full w-auto border border-gray-500 shadow-sm shadow-slate-500 hover:scale-105"
-            src="{{item.product.imageURL}}" />
+          <a href="{% url 'shoe-detail' item.product.id%}"><img
+              class="row-image h-52 sm:h-full w-auto border border-gray-500 shadow-sm shadow-slate-500 hover:scale-105"
+              src="{{item.product.imageURL}}" /></a>
+
         </div>
         <div class="hidden sm:block">
           <p class="text-md font-semibold text-center">{{item.product.name}}</p>
@@ -97,12 +96,7 @@
               class="lucide lucide-minus">
               <path d="M5 12h14" />
             </svg>
-            <!-- <img
-              data-product="{{item.product.id}}"
-              data-action="remove"
-              class="chg-quantity update-cart-button"
-              src="{% static  'images/minus.png' %}"
-            /> -->
+
           </div>
         </div>
         <div class="hidden sm:block">
@@ -113,7 +107,7 @@
     </div>
     <div
       class="box-element sticky top-10 flex flex-col justify-evenly gap-8 h-[300px] bg-white py-3 px-4 rounded-md shadow-sm">
-      <a class="btn btn-outline-dark" href="{% url 'shoestore' %}">&#x2190; Continue Shopping</a>
+      <a class="btn btn-outline-dark hover:text-red-500" href="{% url 'shoestore' %}">&#x2190; Continue Shopping</a>
 
       <div class="flex flex-col w-full">
         <h5 class="grid grid-cols-2">
@@ -123,8 +117,8 @@
         <h5 class="grid grid-cols-2">
           Total Amount:
           <p class="grid">
-            <strong class="text-emerald-600"> ₹ {{order.get_cart_total_price|floatformat:2}}</strong>
-            <span class="text-xs">(including shipping)</span>
+            <strong class="text-emerald-600 px-1"> ₹ {{order.get_cart_total_price|floatformat:2}}</strong>
+            <span class="text-[.65rem]">(including shipping)</span>
           </p>
         </h5>
       </div>

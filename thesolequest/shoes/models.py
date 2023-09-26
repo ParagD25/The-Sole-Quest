@@ -14,6 +14,13 @@ class Customer(models.Model):
         return self.name
 
 
+class ShoeBrand(models.Model):
+    brand = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.brand
+
+
 class ShoeCondition(models.Model):
     condition = models.CharField(max_length=200, null=True)
 
@@ -27,6 +34,10 @@ class Product(models.Model):
     condition = models.ForeignKey(
         ShoeCondition, on_delete=models.SET_NULL, blank=True, null=True
     )
+    brand = models.ForeignKey(
+        ShoeBrand, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    description = models.TextField(null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
