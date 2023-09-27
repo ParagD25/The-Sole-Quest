@@ -100,16 +100,6 @@ h1,h2,h3,h4,h5,h6{
 	display: none!important;
 }
 
-.pricing_para{
-	display: inline-block; 
-	float: right;	
-}
-
-.cart-heading{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
 
 .cart-summary{
 	display: grid;
