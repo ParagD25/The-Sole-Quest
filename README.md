@@ -2,8 +2,8 @@
 
 The Sole Quest is an ecommerce website specializing in high-end footwear. This project was developed using a combination of cutting-edge technologies and best practices to deliver a seamless shopping experience for users. In this README, we'll dive into the key features and technologies that power The Sole Quest.
 
-### Technologies Used
-- Django: The Django web framework serves as the core technology behind The Sole Quest, providing a solid foundation for building a robust and scalable web application.
+## Tech Stack Used 📁:
+- Django : The Django web framework serves as the core technology behind The Sole Quest, providing a solid foundation for building a robust and scalable web application.
 
 - PostgreSQL: We chose PostgreSQL as our database management system to ensure efficient data storage and management for product details, user information, order history, and shipping data.
 
@@ -16,6 +16,52 @@ The Sole Quest is an ecommerce website specializing in high-end footwear. This p
 - Stripe: We integrated the Stripe API to handle secure and efficient payment processing, ensuring that users can make purchases with confidence.
 
 - AWS: The application is hosted on AWS, guaranteeing reliable performance and scalability as the website's traffic grows.
+
+### Cloning the repository 🌀
+
+> Clone the repository using the command below :
+```bash
+https://github.com/ParagD25/The-Sole-Quest.git
+
+```
+
+> Move into the directory where we have the project files : 
+```bash
+cd thesolequest
+
+```
+
+> Create a virtual environment :
+```bash
+# Let's install virtualenv first
+python -m venv venv
+
+
+```
+
+> Activate the virtual environment :
+```bash
+./venv/Scripts/Activate
+
+```
+
+> Install the requirements :
+```bash
+pip install -r requirements.txt
+
+```
+
+#
+
+### Running the App
+
+> To run the App, we use :
+```bash
+python manage.py runserver
+
+```
+
+> ⚠ Then, the development server will be started at http://127.0.0.1:8000/
 
 
 
