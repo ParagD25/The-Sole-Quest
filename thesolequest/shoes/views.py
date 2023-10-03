@@ -211,3 +211,7 @@ def errorPage(request):
     context = {"cartItems": cartItems}
 
     return render(request, "shoes/errorpage.html", context)
+
+def userProfile(request):
+
+    return render(request, "shoes/userprofile.html")
