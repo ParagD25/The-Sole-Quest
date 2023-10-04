@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Customer, ShoeCondition, Product, Order, OrderItem, Shipping
-import json, uuid
+import json
+import uuid
 from django.db.models import Q
 from .utils import guestUserOrder, productDataUtils
 from django.contrib.auth.models import User
@@ -80,10 +81,12 @@ def shoestore(request):
         request.GET.get("search") if request.GET.get("search") != None else ""
     )
     products = Product.objects.filter(
-        Q(brand__brand__icontains=search_element) | Q(name__icontains=search_element)
+        Q(brand__brand__icontains=search_element) | Q(
+            name__icontains=search_element)
     )
 
-    context = {"products": products, "cartItems": cartItems, "shippingCharge": 0}
+    context = {"products": products,
+               "cartItems": cartItems, "shippingCharge": 0}
     if products.count() > 0:
         return render(request, "shoes/shoestore.html", context)
     else:
@@ -139,8 +142,10 @@ def updateCart(request):
     customer = request.user.customer
     product = Product.objects.get(id=productId)
 
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+    order, created = Order.objects.get_or_create(
+        customer=customer, complete=False)
+    orderItem, created = OrderItem.objects.get_or_create(
+        order=order, product=product)
 
     if action == "add":
         orderItem.quantity += 1
@@ -161,7 +166,8 @@ def processOrder(request):
     data = json.loads(request.body)
     if request.user.is_authenticated:
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
 
     else:
         # print("Guest User ...")
@@ -212,6 +218,16 @@ def errorPage(request):
 
     return render(request, "shoes/errorpage.html", context)
 
-def userProfile(request):
 
-    return render(request, "shoes/userprofile.html")
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    customer = Customer.objects.get(user=user)
+    user_orders = Order.objects.filter(
+        customer=customer).order_by('-date_ordered')
+    UserData = productDataUtils(request)
+    cartItems = UserData["cartItems"]
+    order_items = OrderItem.objects.filter(order__in=user_orders)
+
+    context = {"user": user, "cartItems": cartItems, "customer": customer,
+               "user_orders": user_orders, "order_items": order_items}
+    return render(request, "shoes/userprofile.html", context)

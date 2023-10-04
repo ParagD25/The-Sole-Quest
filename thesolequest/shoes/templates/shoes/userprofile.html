@@ -4,37 +4,40 @@
 <div class="flex flex-col h-screen bg-gray-100">
 
 
-    <!-- Contenido principal -->
+    <!-- main content -->
     <div class="flex-1 flex flex-wrap">
-        <!-- Barra lateral de navegación (oculta en dispositivos pequeños) -->
-
-
-        <!-- Área de contenido principal -->
+        <!-- Main content Area -->
         <div class="flex-1 p-4 w-full md:w-1/2">
-            <!-- Campo de búsqueda -->
-            <div class="relative max-w-md w-full">
-                <div class="absolute top-1 left-2 inline-flex items-center p-2">
-                    <i class="fas fa-search text-gray-400"></i>
-                </div>
-            </div>
 
-                 <!-- Contenedor de Gráficas -->
             <div class="mt-8 flex flex-wrap space-x-0 space-y-2 md:space-x-4 md:space-y-0">
-                <!-- Primer contenedor -->
-                <!-- Sección 1 - Gráfica de Usuarios -->
+                <!-- Section 1 :User Details -->
                 <div class="flex-1 bg-white p-4 shadow rounded-lg md:w-full">
-                    <h2 class="text-gray-900 font-semibold pb-1 text-base lg:text-lg">User Details:</h2>
+                    <h2 class="text-gray-900 font-semibold pb-1 text-base lg:text-lg px-3">User Details:</h2>
                     <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div> 
-                    <div class="text-xs lg:text-sm">
-                        <p class="mb-2">Name: Parag Durafe</p>
-                        <p class="mb-2">Email : email@email.com</p>
-                        <p class="mb-2">Username : </p>
-                        <p class="mb-2">First Name : </p>
-                        <p class="mb-2">Last Name : </p>  
 
-                    </div>
-                
-                    
+
+                    <div class="grid gap-3 gap-x-16 mb-3 md:grid-cols-2 px-7">
+                      <div>
+                          <label for="company" class="block mb-1 text-sm font-medium text-gray-900">Username</label>
+                          <input type="text" id="username" class="border border-b-blue-500 text-gray-500 text-sm rounded-lg block w-full p-2.5 bg-white" value="{{user.username}}" disabled>
+                      </div>  
+                      <div>
+                          <label for="phone" class="block mb-1 text-sm font-normal text-gray-900">Full Name:</label>
+                          <input type="text" id="fullname" class="bg-white border border-b-blue-500 text-gray-500 text-sm rounded-lg block w-full p-2.5" value="{{user.first_name.title}} {{user.last_name.title}}" disabled>
+                      </div>
+                      <div>
+                          <label for="first_name" class="block mb-1 text-sm font-normal text-gray-900">First name</label>
+                          <input type="text" id="first_name" class="bg-white border border-b-blue-500 text-gray-500 text-sm rounded-lg block w-full p-2.5" value="{{user.first_name.title}}" disabled>
+                      </div>
+                      <div>
+                          <label for="last_name" class="block mb-1 text-sm font-normal text-gray-900">Last name</label>
+                          <input type="text" id="last_name" class="bg-white border border-b-blue-500 text-gray-500 text-sm rounded-lg block w-full p-2.5" value="{{user.last_name.title}}" disabled>
+                      </div>
+                  </div>
+                  <div class="mb-6 px-7">
+                      <label for="email" class="block mb-1 text-sm font-normal text-gray-900">Email address</label>
+                      <input type="email" id="email" class="bg-white border border-b-blue-500 text-gray-500 text-sm rounded-lg block w-full p-2.5 " value="{{user.email}}" disabled>
+                  </div>
                    
                 </div>
             </div>
@@ -42,12 +45,19 @@
             <div>
 
             </div>
+
+            <!-- Section 2 :Order Details -->
+            
+            {% for order in user_orders %}
+              {% if order.complete == True %}
+              
+
             <div class="mt-8 bg-white p-4 shadow rounded-lg">
-                <div class="flex flex-row justify-between mb-2"> 
-                    <h4 class="text-gray-800 text-base font-semibold pb-2 text-base lg:text-lg hover:text-blue-700">Order Number : qwertyu345</h4>
-                
-                    <p class="text-sm mb-2 text-xs lg:text-sm">Date Placed : 35-02-3099</p>
-                    <p class="text-sm text-xs lg:text-sm">Total Amount : ₹45454</p> 
+
+                <div class="flex flex-row justify-between mb-2 px-3"> 
+                    <h4 class="text-transparent bg-clip-text bg-gradient-to-r to-orange-600 from-sky-500 font-normal lg:font-semibold pb-2 text-xs lg:text-base">Transaction ID : {{ order.transaction_id }}</h4>
+                    <p class="text-xs text-gray-600 mb-2 lg:text-base lg:font-semibold">Date Placed : {{order.date_ordered | date:"D d M Y"}}</p>
+                    <p class="text-xs text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-sky-500 lg:text-base lg:font-semibold">Total Amount : ₹ {{order.get_cart_total_price | floatformat:2}}</p> 
 
                 </div>
 
@@ -55,85 +65,80 @@
                 
 
                 <div class="box-element bg-white py-3 px-4 rounded-md shadow-sm">
-                    <div class="cart-summary sm:grid grid-cols-5 gap-10 place-items-center">
+                    <div class="cart-summary sm:grid grid-cols-5 gap-4 place-items-center">
                       <div class="hidden sm:block"></div>
                       <div class="hidden sm:block"><strong>Item</strong></div>
                       <div class="hidden sm:block"><strong>Price</strong></div>
                       <div class="hidden sm:block"><strong>Quantity</strong></div>
                       <div class="hidden sm:block"><strong>Total</strong></div>
               
-                      
+                      {% for order_item in order_items %}
+                        {% if order_item.order == order %}
                       <!-- SMALL SCREEN -->
-                      <div class="grid sm:hidden mb-10" style="grid-template-columns: 40% 60%">
+                      <div class="grid sm:hidden mb-5" style="grid-template-columns: 30% 70%">
                         <div>
                           <a href="/detail/7/">
-                            <img class="row-image w-auto h-full border border-gray-500 shadow-sm shadow-slate-500 hover:scale-105" src="/images/shoes/7_H6FWRwW.webp">
+                            <img class="row-image w-auto h-full border border-gray-500 shadow-sm shadow-slate-500" src="/images/shoes/7_H6FWRwW.webp">
                           </a>
               
                         </div>
-                        <div class="flex flex-col justify-between items-center p-2">
-                          <div class="mx-[10%]">
-                            <p class="text-md font-medium text-center">
+                        <div class="flex flex-col justify-between items-center">
+                          <div class="mx-[5%]">
+                            <p class="text-xs font-normal text-center">
                               Beams X Bodega X Adidas Adimatic Sneakers
                             </p>
                           </div>
                           <div>
-                            <p class="text-md text-emerald-600">
-                              7450.00
+                            <p class="text-xs text-emerald-600">
+                              ₹ 7450.00
                             </p>
                           </div>
                           <div>
-                            <div class="quantity flex gap-1 items-center">
+                            <div class="quantity flex gap-1 items-center text-[0.6rem]">
               
-                              <p>100</p>
+                              <p>X 100</p>
               
                             </div>
                           </div>
                           <div>
-                            <p>₹ 7450.0</p>
+                            <p class="text-xs text-blue-500">₹ 7450.0</p>
                           </div>
                         </div>
                       </div>
               
                       <!-- MID SCREEN -->
                       <div class="hidden sm:block">
-                        <a href="/detail/7/"><img class="row-image h-52 sm:h-full w-auto border border-gray-500 shadow-sm shadow-slate-500 hover:scale-105" src="/images/shoes/7_H6FWRwW.webp"></a>
+                        <img class="row-image h-52 sm:h-auto w-2/3 border border-gray-500 shadow-sm shadow-slate-500 hover:scale-105" src="{{order_item.product.imageURL}}">
               
                       </div>
                       <div class="hidden sm:block">
-                        <p class="text-md font-medium text-center">Beams X Bodega X Adidas Adimatic Sneakers</p>
+                        <p class="text-sm font-normal text-center">{{ order_item.product.name }}</p>
                       </div>
                       <div class="hidden sm:block">
                         <p class="text-md text-emerald-600">
-                          7450.00
+                          ₹ {{ order_item.product.price}}
                         </p>
                       </div>
                       <div class="hidden sm:block">
                         <div class="quantity flex gap-1 items-center">
                           
-              
-                          <!-- <img src="/static/images/add.png" /> -->
-                          <p>1</p>
-                         
+                          <p>{{ order_item.quantity }}</p>
               
                         </div>
                       </div>
                       <div class="hidden sm:block">
-                        <p class="hidden sm:block">₹ 7450.0</p>
+                        <p class="hidden sm:block">₹ {{order_item.get_total | floatformat:2}}</p>
                       </div>
+                      {% endif %}
+                    {% endfor %}
                       
                     </div>
                   </div>
 
-
-
-
-
-
-
-
-
             </div>
+            {% endif %}
+
+            {% endfor %}
 
         </div>
     </div>

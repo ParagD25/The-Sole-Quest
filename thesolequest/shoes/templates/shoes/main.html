@@ -131,7 +131,7 @@
             <!-- Login / Register      -->
 
             {% if request.user.is_authenticated %}
-            <p>{{request.user.username.title}}</p>
+            <p><a href="{% url 'user-profile' request.user.id %}">{{request.user.username.title}}</a></p>
             <div>
               <a class="flex items-center hover:text-gray-200" href="{% url 'logout' %}">
                 <!-- Logout -->

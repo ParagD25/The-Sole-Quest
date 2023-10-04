@@ -12,5 +12,5 @@ urlpatterns = [
     path("update-cart/", views.updateCart, name="update-cart"),
     path("process-order/", views.processOrder, name="process-order"),
     path("error-404/", views.errorPage, name="error-page"),
-    path("userprofile/", views.userProfile, name="user-profile"),
+    path("userprofile/<str:pk>/", views.userProfile, name="user-profile"),
 ]
